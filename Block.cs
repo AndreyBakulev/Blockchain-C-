@@ -12,8 +12,8 @@ public class Block{
         this.data = data;
         //this.previousHash = previousBlock.hash; 
         this.nonce = 0;
-        this.hash = null;
+        this.hash = GetHash(index+previousHash+data+nonce);
         this.timestamp = DateTime.Now.Ticks;
     }
-    public string GetHash(string s) {return Encoding.ASCII.GetString(SHA256.HashData(Encoding.ASCII.GetBytes(s)));}
+    public static string GetHash(string s) {return Encoding.ASCII.GetString(SHA256.HashData(Encoding.ASCII.GetBytes(s)));}
 }
