@@ -12,3 +12,4 @@
 /Users/macpro/Documents/GitHub/Blockchain-C-/obj/Debug/net8.0/Blockchain-C-.pdb
 /Users/macpro/Documents/GitHub/Blockchain-C-/obj/Debug/net8.0/Blockchain-C-.genruntimeconfig.cache
 /Users/macpro/Documents/GitHub/Blockchain-C-/obj/Debug/net8.0/ref/Blockchain-C-.dll
+/Users/macpro/Documents/GitHub/Blockchain-C-/obj/Debug/net8.0/Blockchain-C-.sourcelink.json
