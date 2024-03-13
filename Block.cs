@@ -1,3 +1,5 @@
+using System.Security.Cryptography;
+using System.Text;
 public class Block{
     private int index;
     private long timestamp;
@@ -6,21 +8,12 @@ public class Block{
     private string hash;
     private long nonce;
     public Block(string data){
+        //this.index = previousBlock.index;
         this.data = data;
+        //this.previousHash = previousBlock.hash; 
         this.nonce = 0;
-        this.hash = Encoding.ASCII.GetString(Encrypt(Encoding.ASCII.GetBytes()));
+        this.hash = null;
         this.timestamp = DateTime.Now.Ticks;
     }
-
-
-
-    public byte[] Encrypt(byte[] data)
-        {
-            byte[] encryptedData = null;
-            using (SHA256 sha256Hash = SHA256.Create())
-            {
-                encryptedData = sha256Hash.ComputeHash(data);
-            }
-            return encryptedData;
-        }
+    public string GetHash(string s) {return Encoding.ASCII.GetString(SHA256.HashData(Encoding.ASCII.GetBytes(s)));}
 }
