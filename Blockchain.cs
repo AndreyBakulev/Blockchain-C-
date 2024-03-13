@@ -36,7 +36,8 @@ public class Blockchain{
     }
     public void StartMining(){
         //make a new block then mine it until it fits difficulty then return
-        Block newBlock = new("block 1", GetLatestBlock());
+        Block newBlock = new($"block {GetChain().Count}", GetLatestBlock());
+        newBlock = GetLatestBlock();
         AddBlock(newBlock);
         long nonce = 0;
         int difficulty = this.difficulty;
@@ -44,7 +45,7 @@ public class Blockchain{
         string baseBlock = newBlock.GetIndex()+newBlock.GetPreviousHash()+newBlock.GetData();
         string correctString = new string('0',difficulty);
         Console.ForegroundColor = ConsoleColor.Red;
-        Console.WriteLine("Starting Mining");
+        Console.WriteLine($"Starting Mining on chain of {difficulty} difficulty");
         while(true){
             string hash = Block.CalculateHash(baseBlock+nonce);
             if(hash[..difficulty] != correctString){
@@ -57,6 +58,8 @@ public class Blockchain{
                 Console.WriteLine($"Block Mined in {seconds} seconds! \nNonce: {nonce} \nHash: {hash}");
                 newBlock.SetNonce(nonce);
                 newBlock.SetHash(hash.ToString());
+                Block newBlock2 = new($"block {GetChain().Count}", GetLatestBlock());
+                AddBlock(newBlock2);
                 Console.ForegroundColor = ConsoleColor.White;
                 return;
             }

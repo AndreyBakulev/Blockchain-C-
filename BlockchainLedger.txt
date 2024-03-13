@@ -1,2 +1,3 @@
-Index: 0, Hash: 0, Prev Hash: 0, Nonce: 0, Data: Genesis Block,
-Index: 1, Hash: 00002146bdd54d93bd079ccd8810eb4b13f5ce1f5a5e05dcb872f3258628784a, Prev Hash: 0, Nonce: 24561, Data: block 1,
+Index: 0, Hash: 000c985699c2c7db176636a9b59f54afbeac45d735809515c05df2cbb2e221b6, Prev Hash: 0, Nonce: 949, Data: Genesis Block,
+Index: 0, Hash: 000c985699c2c7db176636a9b59f54afbeac45d735809515c05df2cbb2e221b6, Prev Hash: 0, Nonce: 949, Data: Genesis Block,
+Index: 1, Hash: unknown, Prev Hash: 000c985699c2c7db176636a9b59f54afbeac45d735809515c05df2cbb2e221b6, Nonce: 0, Data: block 2,

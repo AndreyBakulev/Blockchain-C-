@@ -2,7 +2,7 @@
 {
     public static void Main(string[] args)
     {
-        Blockchain blockchain = new(4);
+        Blockchain blockchain = new(3);
         blockchain.StartMining();
         using (StreamWriter outputFile = new StreamWriter("BlockchainLedger.txt"))
         {
