@@ -16,6 +16,5 @@
             }
         }
         Console.WriteLine(blockchain.ValidateChain());
-        //Block.PrintBlock(blockchain.GetChain().ElementAt(0));
     }
 }
