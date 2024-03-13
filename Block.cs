@@ -16,7 +16,6 @@ public class Block{
         this.hash = CalculateHash(index + previousHash + data + nonce);
         this.timestamp = DateTime.Now.Ticks;
     }
-    public static string CalculateHash(string s) {return Encoding.ASCII.GetString(SHA256.HashData(Encoding.ASCII.GetBytes(s)));}
     public int GetIndex(){return index;}
     public long GetTimestamp(){return timestamp;}
     public string GetData(){return data;}
@@ -24,7 +23,8 @@ public class Block{
     public string GetHash(){return hash;}
     public long GetNonce(){return nonce;}
     public void SetIndex(int index){this.index = index;}
-    public void SetHash(string hash){this.hash = hash;}
+    public void SetHash(string hash){this.hash = hash;} 
+    public static string CalculateHash(string s) {return Encoding.ASCII.GetString(SHA256.HashData(Encoding.ASCII.GetBytes(s)));}
     public static void PrintBlock(Block b){
         Console.WriteLine("--------------------------------");
         Console.WriteLine("Index: " + b.index);

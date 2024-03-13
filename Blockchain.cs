@@ -2,7 +2,10 @@ public class Blockchain{
     private LinkedList<Block> chain = new();
     private int difficulty;
 
-    public Blockchain(int difficulty){this.difficulty = difficulty;}
+    public Blockchain(int difficulty){
+        this.difficulty = difficulty;
+        this.createGenesisBlock();
+        }
     public void createGenesisBlock(){
         Block genesisBlock = new("Genesis Block", null);
         chain.AddLast(genesisBlock);
