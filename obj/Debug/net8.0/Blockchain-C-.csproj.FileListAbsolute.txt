@@ -1,0 +1,14 @@
+/Users/macpro/Documents/GitHub/Blockchain-C-/bin/Debug/net8.0/Blockchain-C-
+/Users/macpro/Documents/GitHub/Blockchain-C-/bin/Debug/net8.0/Blockchain-C-.deps.json
+/Users/macpro/Documents/GitHub/Blockchain-C-/bin/Debug/net8.0/Blockchain-C-.runtimeconfig.json
+/Users/macpro/Documents/GitHub/Blockchain-C-/bin/Debug/net8.0/Blockchain-C-.dll
+/Users/macpro/Documents/GitHub/Blockchain-C-/bin/Debug/net8.0/Blockchain-C-.pdb
+/Users/macpro/Documents/GitHub/Blockchain-C-/obj/Debug/net8.0/Blockchain-C-.GeneratedMSBuildEditorConfig.editorconfig
+/Users/macpro/Documents/GitHub/Blockchain-C-/obj/Debug/net8.0/Blockchain-C-.AssemblyInfoInputs.cache
+/Users/macpro/Documents/GitHub/Blockchain-C-/obj/Debug/net8.0/Blockchain-C-.AssemblyInfo.cs
+/Users/macpro/Documents/GitHub/Blockchain-C-/obj/Debug/net8.0/Blockchain-C-.csproj.CoreCompileInputs.cache
+/Users/macpro/Documents/GitHub/Blockchain-C-/obj/Debug/net8.0/Blockchain-C-.dll
+/Users/macpro/Documents/GitHub/Blockchain-C-/obj/Debug/net8.0/refint/Blockchain-C-.dll
+/Users/macpro/Documents/GitHub/Blockchain-C-/obj/Debug/net8.0/Blockchain-C-.pdb
+/Users/macpro/Documents/GitHub/Blockchain-C-/obj/Debug/net8.0/Blockchain-C-.genruntimeconfig.cache
+/Users/macpro/Documents/GitHub/Blockchain-C-/obj/Debug/net8.0/ref/Blockchain-C-.dll
