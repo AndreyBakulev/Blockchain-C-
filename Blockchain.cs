@@ -22,4 +22,15 @@ public class Blockchain{
     public LinkedList<Block> GetChain(){
         return chain;
     }
+    public bool ValidateChain(){
+        for(int i = 1; i < chain.Count; i++){
+            Block currentBlock = chain.ElementAt(i);
+            Block previousBlock = chain.ElementAt(i - 1);
+            if(Block.CalculateHash(previousBlock.GetIndex() + previousBlock.GetPreviousHash()
+            + previousBlock.GetData() + previousBlock.GetNonce()) != currentBlock.GetPreviousHash()){
+                return false;
+            }
+        }
+        return true;
+    }
 }

@@ -15,6 +15,7 @@
                     $"Index: {currentBlock.GetIndex()}, Data: {currentBlock.GetData()}, Hash: {currentBlock.GetHash()}, Nonce: {currentBlock.GetNonce()}");
             }
         }
+        Console.WriteLine(blockchain.ValidateChain());
         //Block.PrintBlock(blockchain.GetChain().ElementAt(0));
     }
 }
