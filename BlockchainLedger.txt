@@ -1,3 +1,2 @@
 Index: 0, Hash: 0, Prev Hash: 0, Nonce: 0, Data: Genesis Block,
-Index: 1, Hash: 0000005a1bd773a5346f655438b1fc1fa8803e9c9e16a51a26bebde8c695217f, Prev Hash: 0, Nonce: 333561, Data: Andrey Bakulev 123!,
-Index: 2, Hash: 00000a9544ead05e94fd76086967531db9a47388ec5fb1abefc22b181ccbaf15, Prev Hash: 0000005a1bd773a5346f655438b1fc1fa8803e9c9e16a51a26bebde8c695217f, Nonce: 1711615, Data: paodjaspod,
+Index: 1, Hash: 0000e14f765fdef5f743cbca92f0849eb5d77acfdb34f05f3a709d3ca1712547, Prev Hash: 0, Nonce: 80566, Data: asdlkjlkdflkdfsa,
