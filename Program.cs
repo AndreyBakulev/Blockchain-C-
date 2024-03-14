@@ -27,12 +27,10 @@
                 Blockchain blockchain = new(difficulty);
                 Console.WriteLine("Select mining type: parallel (1), linear (2)");
                 string selection = Console.ReadLine();
-                if (selection == "1")
-                {
+                if (selection == "1"){
                     //blockchain.StartMiningParallel();
                 }
-                else if (selection == "2")
-                {
+                else if (selection == "2"){
                     blockchain.StartMining();
                 }
                 else
