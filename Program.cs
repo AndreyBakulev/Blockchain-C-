@@ -2,7 +2,7 @@
 {
     public static void Main(string[] args)
     {
-        Blockchain blockchain = new(4);
+        Blockchain blockchain = new(1);
         Console.WriteLine("Welcome to Andrey's Bitcoin Miner!");
         Console.WriteLine("For Parrallelism, select 1, and without select 2");
         string choice = Console.ReadLine();

@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Blockchain-C-")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ff11607f2a6493ffbccf57cb3fcf241d0688896d")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f16b66a58f882823245579d9d1032c5ea4f57055")]
 [assembly: System.Reflection.AssemblyProductAttribute("Blockchain-C-")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Blockchain-C-")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

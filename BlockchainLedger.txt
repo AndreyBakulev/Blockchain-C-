@@ -1,2 +1,3 @@
 Index: 0, Hash: 0, Prev Hash: 0, Nonce: 0, Data: Genesis Block,
-Index: 1, Hash: 0000e14f765fdef5f743cbca92f0849eb5d77acfdb34f05f3a709d3ca1712547, Prev Hash: 0, Nonce: 80566, Data: asdlkjlkdflkdfsa,
+Index: 1, Hash: 0a363df6127e52f79a49d94686bee1716a28c70d904c05bebfb2a82e193e9104, Prev Hash: 0, Nonce: 10, Data: gfhghffghjfghfghfghfgh,
+Index: 2, Hash: 0b25eaf129f3db00de0792a409ed2bcc2c0c3bf365e28738a6bd8adef04504ce, Prev Hash: 0a363df6127e52f79a49d94686bee1716a28c70d904c05bebfb2a82e193e9104, Nonce: 31, Data: gfd dfg ,

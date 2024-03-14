@@ -133,10 +133,12 @@ public class Blockchain
     }
     public void StartMining()
     {
-        Block newBlock = GetLatestBlock();
+        Console.WriteLine("Please enter data for your new block");
+        Block newBlock = new(Console.ReadLine(),GetLatestBlock());
         long nonce = 0;
         var watch = System.Diagnostics.Stopwatch.StartNew();
         string baseBlock = newBlock.GetIndex() + newBlock.GetPreviousHash() + newBlock.GetData();
+        Block.PrintBlock(newBlock);
         string correctString = new('0', difficulty);
         Console.ForegroundColor = ConsoleColor.Red;
         Console.WriteLine($"Starting Mining on chain of {difficulty} difficulty");
@@ -156,15 +158,13 @@ public class Blockchain
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine($"Block Mined in {seconds} seconds without Parallelism! \nNonce: {nonce} \nHash: {hash}");
                 Console.ForegroundColor = ConsoleColor.White;
-                Console.WriteLine("Please enter the data for a new Block");
-                Block newBlock2 = new(Console.ReadLine(), GetLatestBlock());
-                newBlock2.SetNonce(nonce);
-                newBlock2.SetHash(hash.ToString());
-                AddBlock(newBlock2);
+                newBlock.SetNonce(nonce);
+                newBlock.SetHash(hash.ToString());
                 times.Add(seconds);
                 break;
             }
         }
+        AddBlock(newBlock);
         Console.WriteLine("To Mine the next node, type 1");
         if (Console.ReadLine() == "1")
         {
