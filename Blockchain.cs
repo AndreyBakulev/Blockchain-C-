@@ -2,11 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.Versioning;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
-
 public class Blockchain
 {
     private LinkedList<Block> chain = new();
@@ -108,6 +107,7 @@ public class Blockchain
             }
             Console.WriteLine($"You found a difficulty {difficulty} hash every {averageTime / times.Count} seconds ({times.Count} times)");
             times.Clear();
+            SerializeBlockchain();
             Console.WriteLine("Goodbye!");
         }
     }
@@ -136,6 +136,51 @@ public class Blockchain
         catch (Exception ex)
         {
             Console.WriteLine("An error occurred while writing to the file: " + ex.Message);
+        }
+    }
+    public void SerializeBlockchain()
+    {
+        string filePath = "blockchain.bin";
+        using (FileStream fileStream = new FileStream(filePath, FileMode.Create))
+        using (BinaryWriter writer = new BinaryWriter(fileStream))
+        {
+            writer.Write(chain.Count);
+            foreach (Block block in chain)
+            {
+                writer.Write(block.GetIndex());
+                writer.Write(block.GetTimestamp());
+                writer.Write(block.GetData());
+                writer.Write(block.GetPreviousHash());
+                writer.Write(block.GetNonce());
+            }
+        }
+    }
+
+    public void DeserializeBlockchain()
+    {
+        //since im putting genesis block in maybe start i at 1 so i dont double copy?
+        string filePath = "blockchain.bin";
+        if (File.Exists(filePath))
+        {
+            chain.Clear();
+            createGenesisBlock();
+            using (FileStream fileStream = new FileStream(filePath, FileMode.Open))
+            using (BinaryReader reader = new BinaryReader(fileStream))
+            {
+                int count = reader.ReadInt32();
+                for (int i = 0; i < count; i++)
+                {
+                    int index = reader.ReadInt32();
+                    long timestamp = reader.ReadInt64();
+                    string data = reader.ReadString();
+                    string previousHash = reader.ReadString();
+                    long nonce = reader.ReadInt64();
+                    Block block = new Block(data, GetLatestBlock());
+                    block.SetIndex(index);
+                    block.SetNonce(nonce);
+                    chain.AddLast(block);
+                }
+            }
         }
     }
 }
