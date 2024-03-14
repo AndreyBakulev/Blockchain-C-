@@ -9,7 +9,7 @@ public class Blockchain
 {
     private LinkedList<Block> chain = new();
     private int difficulty;
-    private List<double> times = new();
+    private List<double> times = [];
 
     public Blockchain(int difficulty)
     {
@@ -85,7 +85,9 @@ public class Blockchain
                     nonce = startNonce;
                     hashFound = true;
                     break;
-                } else {
+                }
+                else
+                {
                     Console.WriteLine($"#{startNonce}, Hash: {tempHash}");
                 }
 
@@ -134,11 +136,10 @@ public class Blockchain
     public void StartMining()
     {
         Console.WriteLine("Please enter data for your new block");
-        Block newBlock = new(Console.ReadLine(),GetLatestBlock());
+        Block newBlock = new(Console.ReadLine(), GetLatestBlock());
         long nonce = 0;
         var watch = System.Diagnostics.Stopwatch.StartNew();
         string baseBlock = newBlock.GetIndex() + newBlock.GetPreviousHash() + newBlock.GetData();
-        Block.PrintBlock(newBlock);
         string correctString = new('0', difficulty);
         Console.ForegroundColor = ConsoleColor.Red;
         Console.WriteLine($"Starting Mining on chain of {difficulty} difficulty");
@@ -148,7 +149,7 @@ public class Blockchain
             //if the first difficulty characters are not the correct string
             if (hash[..difficulty] != correctString)
             {
-                Console.WriteLine($"#{nonce}, hash: {hash}");
+                //Console.WriteLine($"#{nonce}, hash: {hash}");
                 nonce++;
             }
             else
@@ -165,6 +166,15 @@ public class Blockchain
             }
         }
         AddBlock(newBlock);
+        using (StreamWriter outputFile = new StreamWriter("BlockchainLedger.txt"))
+        {
+            for (int i = 0; i < GetChain().Count; i++)
+            {
+                Block currentBlock = GetChain().ElementAt(i);
+                outputFile.WriteLine(
+                    $"Index: {currentBlock.GetIndex()}, Hash: {currentBlock.GetHash()}, Prev Hash: {currentBlock.GetPreviousHash()}, Nonce: {currentBlock.GetNonce()}, Data: {currentBlock.GetData()},");
+            }
+        }
         Console.WriteLine("To Mine the next node, type 1");
         if (Console.ReadLine() == "1")
         {
@@ -181,17 +191,7 @@ public class Blockchain
             times.Clear();
             Console.WriteLine("Ok, Goodbye!");
         }
-        using (StreamWriter outputFile = new StreamWriter("BlockchainLedger.txt"))
-        {
-            for (int i = 0; i < GetChain().Count; i++)
-            {
-                Block currentBlock = GetChain().ElementAt(i);
-                outputFile.WriteLine(
-                    $"Index: {currentBlock.GetIndex()}, Hash: {currentBlock.GetHash()}, Prev Hash: {currentBlock.GetPreviousHash()}, Nonce: {currentBlock.GetNonce()}, Data: {currentBlock.GetData()},");
-            }
-        }
     }
-
 }
 
 /* CUDA stuff:
