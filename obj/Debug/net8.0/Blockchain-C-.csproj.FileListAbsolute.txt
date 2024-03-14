@@ -13,3 +13,18 @@
 /Users/macpro/Documents/GitHub/Blockchain-C-/obj/Debug/net8.0/Blockchain-C-.genruntimeconfig.cache
 /Users/macpro/Documents/GitHub/Blockchain-C-/obj/Debug/net8.0/ref/Blockchain-C-.dll
 /Users/macpro/Documents/GitHub/Blockchain-C-/obj/Debug/net8.0/Blockchain-C-.sourcelink.json
+C:\Program Files\GitHub\Blockchain-C-\bin\Debug\net8.0\Blockchain-C-.exe
+C:\Program Files\GitHub\Blockchain-C-\bin\Debug\net8.0\Blockchain-C-.deps.json
+C:\Program Files\GitHub\Blockchain-C-\bin\Debug\net8.0\Blockchain-C-.runtimeconfig.json
+C:\Program Files\GitHub\Blockchain-C-\bin\Debug\net8.0\Blockchain-C-.dll
+C:\Program Files\GitHub\Blockchain-C-\bin\Debug\net8.0\Blockchain-C-.pdb
+C:\Program Files\GitHub\Blockchain-C-\obj\Debug\net8.0\Blockchain-C-.GeneratedMSBuildEditorConfig.editorconfig
+C:\Program Files\GitHub\Blockchain-C-\obj\Debug\net8.0\Blockchain-C-.AssemblyInfoInputs.cache
+C:\Program Files\GitHub\Blockchain-C-\obj\Debug\net8.0\Blockchain-C-.AssemblyInfo.cs
+C:\Program Files\GitHub\Blockchain-C-\obj\Debug\net8.0\Blockchain-C-.csproj.CoreCompileInputs.cache
+C:\Program Files\GitHub\Blockchain-C-\obj\Debug\net8.0\Blockchain-C-.sourcelink.json
+C:\Program Files\GitHub\Blockchain-C-\obj\Debug\net8.0\Blockchain-C-.dll
+C:\Program Files\GitHub\Blockchain-C-\obj\Debug\net8.0\refint\Blockchain-C-.dll
+C:\Program Files\GitHub\Blockchain-C-\obj\Debug\net8.0\Blockchain-C-.pdb
+C:\Program Files\GitHub\Blockchain-C-\obj\Debug\net8.0\Blockchain-C-.genruntimeconfig.cache
+C:\Program Files\GitHub\Blockchain-C-\obj\Debug\net8.0\ref\Blockchain-C-.dll
