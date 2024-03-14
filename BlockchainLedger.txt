@@ -1,2 +1,3 @@
-Index: 0, Hash: 0, Prev Hash: 0, Nonce: 0, Data: Genesis Block,
-Index: 1, Hash: 0000000c9f671dbd6924fc741dd6cdf1e58ff50c63140d1c9aa8bc16acd62cf9, Prev Hash: 0, Nonce: 27441765, Data: aslkdjaslkdsa,
+Index: 0, Prev Hash: 0, Nonce: 0, Data: Genesis Block,
+Index: 1, Prev Hash: 76fc651d21abcb943d50af9872ae961dcd0c22fa4b03c9eac0700f07423fced4, Nonce: 174802, Data: askldsadl,
+Index: 2, Prev Hash: 9b32c89f42142baebbb0379e30239634c925ecced157afe02da22573d4cab9de, Nonce: 270011, Data: andrey block ,

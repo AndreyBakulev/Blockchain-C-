@@ -29,7 +29,7 @@
                 string selection = Console.ReadLine();
                 if (selection == "1")
                 {
-                    blockchain.StartMiningParallel();
+                    //blockchain.StartMiningParallel();
                 }
                 else if (selection == "2")
                 {

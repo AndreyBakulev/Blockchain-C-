@@ -16,14 +16,11 @@ public class Blockchain
         this.difficulty = difficulty;
         this.createGenesisBlock();
     }
-
     public void createGenesisBlock()
     {
         Block genesisBlock = new("Genesis Block", null);
-        genesisBlock.SetHash("0");
         chain.AddLast(genesisBlock);
     }
-
     public void AddBlock(Block b)
     {
         chain.AddLast(b);
@@ -55,90 +52,91 @@ public class Blockchain
         }
         return true;
     }
-    public void StartMiningParallel()
-    {
-        Block newBlock = GetLatestBlock();
-        long nonce = 0;
-        var watch = System.Diagnostics.Stopwatch.StartNew();
-        string baseBlock = newBlock.GetIndex() + newBlock.GetPreviousHash() + newBlock.GetData();
-        string correctString = new('0', difficulty);
-        Console.ForegroundColor = ConsoleColor.Red;
-        Console.WriteLine($"Starting Mining on chain of {difficulty} difficulty");
-        string hash = "";
-        int totalThreads = Environment.ProcessorCount;
-        object lockObject = new object();
-        bool hashFound = false;
-        Parallel.For(0, totalThreads, (threadIndex) =>
-        {
-            long startNonce = threadIndex;
-            long step = totalThreads;
+    // public void StartMiningParallel()
+    // {
+    //     Block newBlock = GetLatestBlock();
+    //     long nonce = 0;
+    //     var watch = System.Diagnostics.Stopwatch.StartNew();
+    //     string baseBlock = newBlock.GetIndex() + newBlock.GetPreviousHash() + newBlock.GetData();
+    //     string correctString = new('0', difficulty);
+    //     Console.ForegroundColor = ConsoleColor.Red;
+    //     Console.WriteLine($"Starting Mining on chain of {difficulty} difficulty");
+    //     string hash = "";
+    //     int totalThreads = Environment.ProcessorCount;
+    //     object lockObject = new object();
+    //     bool hashFound = false;
+    //     Parallel.For(0, totalThreads, (threadIndex) =>
+    //     {
+    //         long startNonce = threadIndex;
+    //         long step = totalThreads;
 
-            while (!hashFound)
-            {
-                string tempHash = Block.CalculateHash(baseBlock + startNonce);
-                if (tempHash[..difficulty] == correctString)
-                {
-                    lock (lockObject)
-                    {
-                        if (!hashFound)
-                        {
-                            hash = tempHash;
-                            nonce = startNonce;
-                            hashFound = true;
-                        }
-                    }
-                    break;
-                }
-                startNonce += step;
-                if (startNonce % 100000 == 0)
-                {
-                    lock (lockObject)
-                    {
-                        Console.Write($"\rNonce: {startNonce}, Hash: {tempHash}");
-                    }
-                }
-            }
-        });
-        watch.Stop();
-        double seconds = (double)watch.ElapsedMilliseconds / 1000;
-        Console.ForegroundColor = ConsoleColor.Green;
-        Console.WriteLine($"Block Mined in {seconds} seconds! \nNonce: {nonce} \nHash: {hash}");
-        Console.WriteLine("Please enter the data for a new Block");
-        Block newBlock2 = new(Console.ReadLine(), GetLatestBlock());
-        newBlock2.SetNonce(nonce);
-        newBlock2.SetHash(hash.ToString());
-        AddBlock(newBlock2);
-        Console.ForegroundColor = ConsoleColor.White;
-        times.Add(seconds);
-        Console.WriteLine("To Mine the next node, type 1");
-        if (Console.ReadLine() == "1")
-        {
-            StartMiningParallel();
-        }
-        else
-        {
-            double averageTime = 0;
-            for (int i = 0; i < times.Count; i++)
-            {
-                averageTime += times[i];
-            }
-            Console.WriteLine($"Your average time to find a difficulty {difficulty} hash was {averageTime / times.Count} seconds");
-            times.Clear();
-            Console.WriteLine("Ok, Goodbye!");
-        }
+    //         while (!hashFound)
+    //         {
+    //             string tempHash = Block.CalculateHash(baseBlock + startNonce);
+    //             if (tempHash[..difficulty] == correctString)
+    //             {
+    //                 lock (lockObject)
+    //                 {
+    //                     if (!hashFound)
+    //                     {
+    //                         hash = tempHash;
+    //                         nonce = startNonce;
+    //                         hashFound = true;
+    //                     }
+    //                 }
+    //                 break;
+    //             }
+    //             startNonce += step;
+    //             if (startNonce % 100000 == 0)
+    //             {
+    //                 lock (lockObject)
+    //                 {
+    //                     Console.Write($"\rNonce: {startNonce}, Hash: {tempHash}");
+    //                 }
+    //             }
+    //         }
+    //     });
+    //     watch.Stop();
+    //     double seconds = (double)watch.ElapsedMilliseconds / 1000;
+    //     Console.ForegroundColor = ConsoleColor.Green;
+    //     Console.WriteLine($"Block Mined in {seconds} seconds! \nNonce: {nonce} \nHash: {hash}");
+    //     Console.WriteLine("Please enter the data for a new Block");
+    //     Block newBlock2 = new(Console.ReadLine(), GetLatestBlock());
+    //     newBlock2.SetNonce(nonce);
+    //     newBlock2.SetHash(hash.ToString());
+    //     AddBlock(newBlock2);
+    //     Console.ForegroundColor = ConsoleColor.White;
+    //     times.Add(seconds);
+    //     Console.WriteLine("To Mine the next node, type 1");
+    //     if (Console.ReadLine() == "1")
+    //     {
+    //         StartMiningParallel();
+    //     }
+    //     else
+    //     {
+    //         double averageTime = 0;
+    //         for (int i = 0; i < times.Count; i++)
+    //         {
+    //             averageTime += times[i];
+    //         }
+    //         Console.WriteLine($"Your average time to find a difficulty {difficulty} hash was {averageTime / times.Count} seconds");
+    //         times.Clear();
+    //         Console.WriteLine("Ok, Goodbye!");
+    //     }
 
-        using (StreamWriter outputFile = new StreamWriter("BlockchainLedger.txt"))
-        {
-            for (int i = 0; i < GetChain().Count; i++)
-            {
-                Block currentBlock = GetChain().ElementAt(i);
-                outputFile.WriteLine(
-                    $"Index: {currentBlock.GetIndex()}, Hash: {currentBlock.GetHash()}, Prev Hash: {currentBlock.GetPreviousHash()}, Nonce: {currentBlock.GetNonce()}, Data: {currentBlock.GetData()},");
-            }
-        }
-    }
-    public void StartMining()
-    {
+    //     using (StreamWriter outputFile = new StreamWriter("BlockchainLedger.txt"))
+    //     {
+    //         for (int i = 0; i < GetChain().Count; i++)
+    //         {
+    //             Block currentBlock = GetChain().ElementAt(i);
+    //             outputFile.WriteLine(
+    //                 $"Index: {currentBlock.GetIndex()}, Hash: {currentBlock.GetHash()}, Prev Hash: {currentBlock.GetPreviousHash()}, Nonce: {currentBlock.GetNonce()}, Data: {currentBlock.GetData()},");
+    //         }
+    //     }
+    // }
+    public void StartMining(){
+        //problem with genesis block bc its out of bounds
+        //pass in currentblock as param
         Console.WriteLine("Please enter data for your new block");
         Block newBlock = new(Console.ReadLine(), GetLatestBlock());
         long nonce = 0;
@@ -162,7 +160,6 @@ public class Blockchain
                 Console.WriteLine($"\nBlock Mined in {seconds} seconds without Parallelism! \nNonce: {nonce} \nHash: {hash}");
                 Console.ForegroundColor = ConsoleColor.White;
                 newBlock.SetNonce(nonce);
-                newBlock.SetHash(hash);
                 times.Add(seconds);
                 break;
             }
@@ -179,12 +176,12 @@ public class Blockchain
             {
                 Block currentBlock = GetChain().ElementAt(i);
                 outputFile.WriteLine(
-                    $"Index: {currentBlock.GetIndex()}, Hash: {currentBlock.GetHash()}, Prev Hash: {currentBlock.GetPreviousHash()}, Nonce: {currentBlock.GetNonce()}, Data: {currentBlock.GetData()},");
+                    $"Index: {currentBlock.GetIndex()}, Prev Hash: {currentBlock.GetPreviousHash()}, Nonce: {currentBlock.GetNonce()}, Data: {currentBlock.GetData()},");
             }
         }
-        Console.WriteLine("Keep mining? (Y/N)");
+        Console.WriteLine("Would you like to add a new block?(Y/N)");
         string choice = Console.ReadLine();
-        if (choice == "Y" || choice == "")
+        if (choice.ToLower() == "y" || choice == "")
         {
             StartMining();
         }

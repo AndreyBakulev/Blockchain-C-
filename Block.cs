@@ -5,25 +5,23 @@ public class Block{
     private long timestamp;
     private string data;
     private string previousHash;
-    private string hash;
     private long nonce;
       public Block(string data, Block previousBlock)
     {
         this.index = previousBlock?.GetIndex() + 1 ?? 0;
         this.data = data;
-        this.previousHash = previousBlock?.GetHash() ?? "0";
+        if(this.index > 0){
+        this.previousHash = CalculateHash(previousBlock.GetIndex()+previousBlock.GetPreviousHash()+previousBlock.GetData()+ previousBlock.GetNonce()+previousBlock.GetTimestamp());
+        } else this.previousHash = "0";
         this.nonce = 0;
-        this.hash = "unknown";
         this.timestamp = DateTime.Now.Ticks;
     }
     public int GetIndex(){return index;}
     public long GetTimestamp(){return timestamp;}
     public string GetData(){return data;}
     public string GetPreviousHash(){return previousHash;}
-    public string GetHash(){return hash;}
     public long GetNonce(){return nonce;}
     public void SetIndex(int index){this.index = index;}
-    public void SetHash(string hash){this.hash = hash;} 
     public void SetNonce(long nonce){this.nonce = nonce;}
     
     public static void PrintBlock(Block b){
@@ -33,7 +31,6 @@ public class Block{
         Console.WriteLine("Data: " + b.data);
         Console.WriteLine("Previous Hash: " + b.previousHash);
         Console.WriteLine("Nonce: " + b.nonce);
-        Console.WriteLine("Hash: " + b.hash);
         Console.WriteLine("--------------------------------");
     }
     public static string CalculateHash(string rawData)
