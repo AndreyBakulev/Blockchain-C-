@@ -80,14 +80,13 @@
 }
 /*
 Notes:
-validateChain isnt working bc idk
 ADDITIONS{
     make this with cuda!
 }
 LEVELS:
 0: single threaded running {
-    add xata or some db?
-}
+    commit chain to memory and do base req
+    }
 1: parallel running
 2: parallel running with cuda (separate repo)
 3: rust

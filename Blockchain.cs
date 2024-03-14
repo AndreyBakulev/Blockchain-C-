@@ -130,7 +130,7 @@ public class Blockchain
         {
             using (StreamWriter writer = new StreamWriter(filePath, true))
             {
-                writer.WriteLine($"Index: {newBlock.GetIndex()}, Prev Hash: {newBlock.GetPreviousHash()}, Nonce: {newBlock.GetNonce()}, Data: {newBlock.GetData()},");
+                writer.WriteLine($"Index: {newBlock.GetIndex()}, Prev Hash: {newBlock.GetPreviousHash()}, Nonce: {newBlock.GetNonce()}, Data: {newBlock.GetData()}");
             }
         }
         catch (Exception ex)
