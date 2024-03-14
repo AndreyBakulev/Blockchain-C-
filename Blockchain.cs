@@ -149,7 +149,7 @@ public class Blockchain
             //if the first difficulty characters are not the correct string
             if (hash[..difficulty] != correctString)
             {
-                //Console.WriteLine($"#{nonce}, hash: {hash}");
+                Console.Write($"\rNonce: {nonce}, Hash: {hash}");
                 nonce++;
             }
             else
@@ -157,7 +157,7 @@ public class Blockchain
                 watch.Stop();
                 double seconds = (double)watch.ElapsedMilliseconds / 1000;
                 Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine($"Block Mined in {seconds} seconds without Parallelism! \nNonce: {nonce} \nHash: {hash}");
+                Console.WriteLine($"\n Block Mined in {seconds} seconds without Parallelism! \nNonce: {nonce} \nHash: {hash}");
                 Console.ForegroundColor = ConsoleColor.White;
                 newBlock.SetNonce(nonce);
                 newBlock.SetHash(hash.ToString());
