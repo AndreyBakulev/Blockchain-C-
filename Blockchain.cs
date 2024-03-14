@@ -176,7 +176,8 @@ public class Blockchain
             }
         }
         Console.WriteLine("Keep mining? (Y/N)");
-        if (Console.ReadLine() == "Y" || Console.ReadLine() == ""){
+        string choice = Console.ReadLine();
+        if (choice == "Y" || choice == ""){
             StartMining();
         }
         else{
@@ -191,6 +192,12 @@ public class Blockchain
     }
     public void RetrieveBlock(int index){
         Block.PrintBlock(GetChain().ElementAt(index));
+    }
+    public void removeBlock(int index){
+        GetChain().Remove(GetChain().ElementAt(index));
+        for(int i = index; i < GetChain().Count; i++){
+            //mine each block in front of the deleted ones
+        }
     }
 }
 

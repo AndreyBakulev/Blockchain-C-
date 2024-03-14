@@ -2,21 +2,28 @@
 {
     public static void Main(string[] args)
     {
-        Blockchain blockchain = new(6);
         Console.WriteLine("Welcome to Andrey's Bitcoin Miner!");
+        Console.WriteLine("Please select a difficulty of the blockchain");
+        int difficulty = Int32.Parse(Console.ReadLine());
+        Blockchain blockchain = new(difficulty);
         Console.WriteLine("For Parrallelism, select 1, and without select 2");
         string choice = Console.ReadLine();
-        if(choice == "1"){
+        if (choice == "1")
+        {
             blockchain.StartMiningParallel();
-        } else if(choice == "2"){
+        }
+        else if (choice == "2")
+        {
             blockchain.StartMining();
-        } else {
+        }
+        else
+        {
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("Invalid Input");
             Console.ForegroundColor = ConsoleColor.White;
             return;
         }
-        
+
     }
 }
 /*
