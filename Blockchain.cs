@@ -147,13 +147,11 @@ public class Blockchain
         {
             string hash = Block.CalculateHash(baseBlock + nonce);
             //if the first difficulty characters are not the correct string
-            if (hash[..difficulty] != correctString)
-            {
+            if (hash[..difficulty] != correctString){
                 Console.Write($"\rNonce: {nonce}, Hash: {hash}");
                 nonce++;
             }
-            else
-            {
+            else{
                 watch.Stop();
                 double seconds = (double)watch.ElapsedMilliseconds / 1000;
                 Console.ForegroundColor = ConsoleColor.Green;
