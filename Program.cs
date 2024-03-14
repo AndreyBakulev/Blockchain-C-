@@ -27,6 +27,17 @@
                 Blockchain blockchain = new(difficulty);
                 Console.WriteLine("Select mining type: parallel (1), linear (2)");
                 string selection = Console.ReadLine();
+                Console.WriteLine("Validating chain...");
+                if(blockchain.ValidateChain()){
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("Chain is valid!");
+                    Console.ForegroundColor = ConsoleColor.White;
+                } else {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Chain is not valid!");
+                    Console.ForegroundColor = ConsoleColor.White;
+                    break;
+                }
                 if (selection == "1"){
                     //blockchain.StartMiningParallel();
                 }
@@ -42,7 +53,15 @@
                 }
                 break;
             case 2:
-                //ValidateChain();
+                // if(blockchain.ValidateChain()){
+                //     Console.ForegroundColor = ConsoleColor.Green;
+                //     Console.WriteLine("Chain is valid!");
+                //     Console.ForegroundColor = ConsoleColor.White;
+                // } else {
+                //     Console.ForegroundColor = ConsoleColor.Red;
+                //     Console.WriteLine("Chain invalid!");
+                //     Console.ForegroundColor = ConsoleColor.White;
+                // }
                 break;
             case 3:
                 //RetrieveBlock(Int32.Parse(Console.ReadLine()));
