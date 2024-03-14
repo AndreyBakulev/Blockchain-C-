@@ -193,3 +193,56 @@ public class Blockchain
     }
 
 }
+
+/* CUDA stuff:
+using CUDA;
+using CUDA.Runtime;
+
+public class BlockchainMiner
+{
+    [global]
+    public static void HashKernel(byte[] data, int dataLength, int nonce, byte[] hash)
+    {
+        int index = cuda.blockIdx.x * cuda.blockDim.x + cuda.threadIdx.x;
+        if (index < dataLength)
+        {
+            // Perform hashing calculation here
+            // Example: hash[index] = data[index] ^ nonce;
+        }
+    }
+
+    public static void StartMining()
+    {
+        // Prepare data for hashing
+        byte[] data = // ...
+        int dataLength = // ...
+        int nonce = 0;
+
+        // Allocate memory on GPU
+        CUdeviceptr dataPtr = cuda.Malloc(data);
+        CUdeviceptr hashPtr = cuda.Malloc(new byte[dataLength]);
+
+        // Copy data to GPU
+        cuda.CopyToDevice(dataPtr, data);
+
+        // Launch kernel
+        dim3 blockDim = new dim3(256);
+        dim3 gridDim = new dim3((dataLength + blockDim.x - 1) / blockDim.x);
+        cuda.Launch(blockDim, gridDim).HashKernel(dataPtr, dataLength, nonce, hashPtr);
+
+        // Copy hash from GPU
+        byte[] hash = new byte[dataLength];
+        cuda.CopyToHost(hashPtr, hash);
+
+        // Process the hash and perform mining logic
+        // ...
+
+        // Free GPU memory
+        cuda.Free(dataPtr);
+        cuda.Free(hashPtr);
+    }
+}
+
+
+
+*/
