@@ -175,22 +175,22 @@ public class Blockchain
                     $"Index: {currentBlock.GetIndex()}, Hash: {currentBlock.GetHash()}, Prev Hash: {currentBlock.GetPreviousHash()}, Nonce: {currentBlock.GetNonce()}, Data: {currentBlock.GetData()},");
             }
         }
-        Console.WriteLine("To Mine the next node, type 1");
-        if (Console.ReadLine() == "1")
-        {
+        Console.WriteLine("Keep mining? (Y/N)");
+        if (Console.ReadLine() == "Y" || Console.ReadLine() == ""){
             StartMining();
         }
-        else
-        {
+        else{
             double averageTime = 0;
-            for (int i = 0; i < times.Count; i++)
-            {
+            for (int i = 0; i < times.Count; i++){
                 averageTime += times[i];
             }
             Console.WriteLine($"You found a difficulty {difficulty} hash every {averageTime / times.Count} seconds ({times.Count} times)");
             times.Clear();
             Console.WriteLine("Ok, Goodbye!");
         }
+    }
+    public void RetrieveBlock(int index){
+        Block.PrintBlock(GetChain().ElementAt(index));
     }
 }
 
