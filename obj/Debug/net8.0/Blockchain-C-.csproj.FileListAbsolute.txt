@@ -28,3 +28,6 @@ C:/Program Files/GitHub/Blockchain-C-/obj/Debug/net8.0/refint/Blockchain-C-.dll
 C:/Program Files/GitHub/Blockchain-C-/obj/Debug/net8.0/Blockchain-C-.pdb
 C:/Program Files/GitHub/Blockchain-C-/obj/Debug/net8.0/Blockchain-C-.genruntimeconfig.cache
 C:/Program Files/GitHub/Blockchain-C-/obj/Debug/net8.0/ref/Blockchain-C-.dll
+/Users/macpro/Documents/GitHub/Blockchain-C-/bin/Debug/net8.0/Newtonsoft.Json.dll
+/Users/macpro/Documents/GitHub/Blockchain-C-/obj/Debug/net8.0/Blockchain-C-.csproj.AssemblyReference.cache
+/Users/macpro/Documents/GitHub/Blockchain-C-/obj/Debug/net8.0/Blockchain-C-.csproj.CopyComplete

@@ -1,26 +1,21 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
+using Newtonsoft.Json;
+
 public class Blockchain
 {
-    private LinkedList<Block> chain = new();
+    private LinkedList<Block> chain {get; set; }
     private int difficulty;
     private List<double> times = [];
     public Blockchain(int difficulty)
     {
         this.difficulty = difficulty;
+        this.chain = new LinkedList<Block>();
         this.createGenesisBlock();
     }
     public void createGenesisBlock()
     {
         Block genesisBlock = new("Genesis Block", null);
         chain.AddLast(genesisBlock);
-        WriteToFile(genesisBlock);
     }
     public void AddBlock(Block b)
     {
@@ -36,17 +31,13 @@ public class Blockchain
     {
         return chain.Last.Value;
     }
-    public LinkedList<Block> GetChain()
-    {
-        return chain;
-    }
     public bool ValidateChain()
     {
         for (int i = 1; i < chain.Count; i++)
         {
             Block currentBlock = chain.ElementAt(i);
             Block previousBlock = chain.ElementAt(i - 1);
-            if (Block.CalculateHash(previousBlock.GetIndex() + previousBlock.GetPreviousHash() + previousBlock.GetData() + previousBlock.GetNonce() + previousBlock.GetTimestamp()) != currentBlock.GetPreviousHash())
+            if (Block.CalculateHash(previousBlock.index + previousBlock.previousHash + previousBlock.data + previousBlock.nonce + previousBlock.timestamp) != currentBlock.previousHash)
             {
                 return false;
             }
@@ -62,14 +53,14 @@ public class Blockchain
         long nonce = 0;
         var watch = System.Diagnostics.Stopwatch.StartNew();
         StringBuilder baseBlockBuilder = new();
-        baseBlockBuilder.Append(newBlock.GetIndex());
-        baseBlockBuilder.Append(newBlock.GetPreviousHash());
-        baseBlockBuilder.Append(newBlock.GetData());
+        baseBlockBuilder.Append(newBlock.index);
+        baseBlockBuilder.Append(newBlock.previousHash);
+        baseBlockBuilder.Append(newBlock.data);
         string baseBlock = baseBlockBuilder.ToString();
         string correctString = new('0', difficulty);
         int divisor = (int)Math.Pow(10, difficulty - 1) / 10;
         Console.ForegroundColor = ConsoleColor.Red;
-        Console.WriteLine($"Mining block #{GetLatestBlock().GetIndex()} of {difficulty} difficulty");
+        Console.WriteLine($"Mining block #{GetLatestBlock().index} of {difficulty} difficulty");
         while (true)
         {
             string hash = Block.CalculateHash(baseBlock + nonce); // Inline the hash calculation
@@ -91,7 +82,7 @@ public class Blockchain
             }
         }
         AddBlock(newBlock);
-        WriteToFile(newBlock);
+        WriteToFile(chain);
         Console.WriteLine("Would you like to add a new block?(Y/N)");
         string choice = Console.ReadLine();
         if (choice.ToLower() == "y" || choice == "")
@@ -107,30 +98,31 @@ public class Blockchain
             }
             Console.WriteLine($"You found a difficulty {difficulty} hash every {averageTime / times.Count} seconds ({times.Count} times)");
             times.Clear();
-            SerializeBlockchain();
             Console.WriteLine("Goodbye!");
         }
     }
     public void RetrieveBlock(int index)
     {
-        Block.PrintBlock(GetChain().ElementAt(index));
+        Block.PrintBlock(chain.ElementAt(index));
     }
     public void RemoveBlock(int index)
     {
-        GetChain().Remove(GetChain().ElementAt(index));
-        for (int i = index; i < GetChain().Count; i++)
+        chain.Remove(chain.ElementAt(index));
+        for (int i = index; i < chain.Count; i++)
         {
             //mine each block in front of the deleted ones
         }
     }
-    public static void WriteToFile(Block newBlock)
+    public static void WriteToFile(LinkedList<Block> c)
     {
         string filePath = "blockchainLedger.txt";
         try
         {
-            using (StreamWriter writer = new StreamWriter(filePath, true))
+            using (StreamWriter writer = new StreamWriter(filePath))
             {
-                writer.WriteLine($"Index: {newBlock.GetIndex()}, Prev Hash: {newBlock.GetPreviousHash()}, Nonce: {newBlock.GetNonce()}, Data: {newBlock.GetData()}");
+                for(int i = 0; i < c.Count; i++){
+                writer.WriteLine($"Index: {c.ElementAt(i).index}, Prev Hash: {c.ElementAt(i).previousHash}, Nonce: {c.ElementAt(i).nonce}, Data: {c.ElementAt(i).data}");
+                }
             }
         }
         catch (Exception ex)
@@ -138,49 +130,27 @@ public class Blockchain
             Console.WriteLine("An error occurred while writing to the file: " + ex.Message);
         }
     }
-    public void SerializeBlockchain()
+    // Save the blockchain to a file
+    public static void SaveBlockchain(Blockchain b)
     {
-        string filePath = "blockchain.bin";
-        using (FileStream fileStream = new FileStream(filePath, FileMode.Create))
-        using (BinaryWriter writer = new BinaryWriter(fileStream))
-        {
-            writer.Write(chain.Count);
-            foreach (Block block in chain)
-            {
-                writer.Write(block.GetIndex());
-                writer.Write(block.GetTimestamp());
-                writer.Write(block.GetData());
-                writer.Write(block.GetPreviousHash());
-                writer.Write(block.GetNonce());
-            }
-        }
+        string json = JsonConvert.SerializeObject(b.chain);
+        Console.ForegroundColor = ConsoleColor.Green;
+        Console.WriteLine("Blockchain saved!");
+        Console.ForegroundColor = ConsoleColor.White;
+        File.WriteAllText("blockchain.json", json);
     }
 
-    public void DeserializeBlockchain()
+    // Load the blockchain from a file
+    public Blockchain LoadBlockchain()
     {
-        //since im putting genesis block in maybe start i at 1 so i dont double copy?
-        string filePath = "blockchain.bin";
-        if (File.Exists(filePath))
-        {
-            chain.Clear();
-            createGenesisBlock();
-            using (FileStream fileStream = new FileStream(filePath, FileMode.Open))
-            using (BinaryReader reader = new BinaryReader(fileStream))
-            {
-                int count = reader.ReadInt32();
-                for (int i = 0; i < count; i++)
-                {
-                    int index = reader.ReadInt32();
-                    long timestamp = reader.ReadInt64();
-                    string data = reader.ReadString();
-                    string previousHash = reader.ReadString();
-                    long nonce = reader.ReadInt64();
-                    Block block = new Block(data, GetLatestBlock());
-                    block.SetIndex(index);
-                    block.SetNonce(nonce);
-                    chain.AddLast(block);
-                }
-            }
-        }
+        string json = File.ReadAllText("blockchain.json");
+        Console.ForegroundColor = ConsoleColor.Green;
+        Console.WriteLine("Blockchain Loaded!");
+        Console.ForegroundColor = ConsoleColor.White;
+        LinkedList<Block> test = JsonConvert.DeserializeObject<LinkedList<Block>>(json);
+        Blockchain b = new(2);
+        b.chain = test;
+        return b;
     }
+
 }
