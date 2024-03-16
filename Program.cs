@@ -25,7 +25,7 @@
         // Check if the blockchain data exists
         if (File.Exists("blockchain.json"))
         {
-            blockchain = blockchain.LoadBlockchain();
+            blockchain = blockchain.LoadBlockchain(difficulty);
         } else Console.WriteLine("Made new Blockchain");
 
         switch (choice)

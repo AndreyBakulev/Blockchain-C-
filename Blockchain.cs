@@ -46,8 +46,6 @@ public class Blockchain
     }
     public void StartMining()
     {
-        //problem with genesis block bc its out of bounds
-        //pass in currentblock as param
         Console.WriteLine("Please enter data for your new block");
         Block newBlock = new(Console.ReadLine(), GetLatestBlock());
         long nonce = 0;
@@ -58,12 +56,12 @@ public class Blockchain
         baseBlockBuilder.Append(newBlock.data);
         string baseBlock = baseBlockBuilder.ToString();
         string correctString = new('0', difficulty);
-        int divisor = (int)Math.Pow(10, difficulty - 1) / 10;
+        int divisor = (int)Math.Pow(10, difficulty) / 100;
         Console.ForegroundColor = ConsoleColor.Red;
-        Console.WriteLine($"Mining block #{GetLatestBlock().index} of {difficulty} difficulty");
+        Console.WriteLine($"Mining block #{newBlock.index} of {difficulty} difficulty");
         while (true)
         {
-            string hash = Block.CalculateHash(baseBlock + nonce); // Inline the hash calculation
+            string hash = Block.CalculateHash(baseBlock + nonce); // Inline the hash calculation?
             if (hash[..difficulty] == correctString)
             {
                 watch.Stop();
@@ -108,10 +106,7 @@ public class Blockchain
     public void RemoveBlock(int index)
     {
         chain.Remove(chain.ElementAt(index));
-        for (int i = index; i < chain.Count; i++)
-        {
-            //mine each block in front of the deleted ones
-        }
+        RecalculateChain(index);
     }
     public static void WriteToFile(LinkedList<Block> c)
     {
@@ -141,16 +136,73 @@ public class Blockchain
     }
 
     // Load the blockchain from a file
-    public Blockchain LoadBlockchain()
+    public Blockchain LoadBlockchain(int difficulty)
     {
         string json = File.ReadAllText("blockchain.json");
         Console.ForegroundColor = ConsoleColor.Green;
         Console.WriteLine("Blockchain Loaded!");
         Console.ForegroundColor = ConsoleColor.White;
         LinkedList<Block> test = JsonConvert.DeserializeObject<LinkedList<Block>>(json);
-        Blockchain b = new(2);
+        Blockchain b = new(difficulty);
         b.chain = test;
         return b;
     }
-
+    public void RecalculateChain(int index)
+    {
+        Console.WriteLine($"Recalculating chain from #{index}");
+        Block newBlock = new(chain.ElementAt(index).data, chain.ElementAt(index-1));
+        long nonce = 0;
+        var watch = System.Diagnostics.Stopwatch.StartNew();
+        StringBuilder baseBlockBuilder = new();
+        baseBlockBuilder.Append(newBlock.index);
+        baseBlockBuilder.Append(newBlock.previousHash);
+        baseBlockBuilder.Append(newBlock.data);
+        string baseBlock = baseBlockBuilder.ToString();
+        string correctString = new('0', difficulty);
+        int divisor = (int)Math.Pow(10, difficulty) / 100;
+        Console.ForegroundColor = ConsoleColor.Red;
+        Console.WriteLine($"Mining block #{newBlock.index} of {difficulty} difficulty");
+        while (true)
+        {
+            string hash = Block.CalculateHash(baseBlock + nonce); // Inline the hash calculation?
+            if (hash[..difficulty] == correctString)
+            {
+                watch.Stop();
+                double seconds = (double)watch.ElapsedMilliseconds / 1000;
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine($"\nBlock Mined in {seconds} seconds without Parallelism! \nNonce: {nonce} \nHash: {hash}");
+                Console.ForegroundColor = ConsoleColor.White;
+                newBlock.SetNonce(nonce);
+                times.Add(seconds);
+                break;
+            }
+            nonce++;
+            if (nonce % divisor == 0)
+            {
+                Console.Write($"\r#{nonce}, Hash: {hash}");
+            }
+        }
+        chain.Remove(chain.ElementAt(index));
+        chain.AddAfter(chain.Find(chain.ElementAt(index-1)),newBlock);
+        Console.WriteLine("Finished node! Continue? (Y/N)");
+        Console.WriteLine(chain.Count);
+        string choice = Console.ReadLine();
+        if ((choice.ToLower() == "y" || choice == "") && (index+1 != chain.Count))
+        {
+            RecalculateChain(index+1);
+        }
+        else
+        {
+            double averageTime = 0;
+            for (int i = 0; i < times.Count; i++)
+            {
+                averageTime += times[i];
+            }
+            WriteToFile(chain);
+            Console.WriteLine($"You found a difficulty {difficulty} hash every {averageTime / times.Count} seconds ({times.Count} times)");
+            Console.WriteLine($"Finished at index: {index}");
+            times.Clear();
+            Console.WriteLine("Goodbye!");
+        }
+    }
 }
