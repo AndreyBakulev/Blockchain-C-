@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 public class Blockchain
 {
-    private LinkedList<Block> chain {get; set; }
+    private LinkedList<Block> chain { get; set; }
     private int difficulty;
     private List<double> times = [];
     public Blockchain(int difficulty)
@@ -56,7 +56,7 @@ public class Blockchain
         baseBlockBuilder.Append(newBlock.data);
         string baseBlock = baseBlockBuilder.ToString();
         string correctString = new('0', difficulty);
-        int divisor = (int)Math.Pow(10, difficulty) / 100;
+        int divisor = Math.Min((int)Math.Pow(10, difficulty) / 100, 10000);
         Console.ForegroundColor = ConsoleColor.Red;
         Console.WriteLine($"Mining block #{newBlock.index} of {difficulty} difficulty");
         while (true)
@@ -115,8 +115,9 @@ public class Blockchain
         {
             using (StreamWriter writer = new StreamWriter(filePath))
             {
-                for(int i = 0; i < c.Count; i++){
-                writer.WriteLine($"Index: {c.ElementAt(i).index}, Prev Hash: {c.ElementAt(i).previousHash}, Nonce: {c.ElementAt(i).nonce}, Data: {c.ElementAt(i).data}");
+                for (int i = 0; i < c.Count; i++)
+                {
+                    writer.WriteLine($"Index: {c.ElementAt(i).index}, Prev Hash: {c.ElementAt(i).previousHash}, Nonce: {c.ElementAt(i).nonce}, Data: {c.ElementAt(i).data}");
                 }
             }
         }
@@ -149,8 +150,9 @@ public class Blockchain
     }
     public void RecalculateChain(int index)
     {
-        Console.WriteLine($"Recalculating chain from #{index}");
-        Block newBlock = new(chain.ElementAt(index).data, chain.ElementAt(index-1));
+        //only thing you are remembering is the data
+        Console.WriteLine($"Recalculating chain #{index}");
+        Block newBlock = new(chain.ElementAt(index).data, chain.ElementAt(index - 1));
         long nonce = 0;
         var watch = System.Diagnostics.Stopwatch.StartNew();
         StringBuilder baseBlockBuilder = new();
@@ -159,7 +161,7 @@ public class Blockchain
         baseBlockBuilder.Append(newBlock.data);
         string baseBlock = baseBlockBuilder.ToString();
         string correctString = new('0', difficulty);
-        int divisor = (int)Math.Pow(10, difficulty) / 100;
+        int divisor = Math.Min((int)Math.Pow(10, difficulty) / 100, 10000);
         Console.ForegroundColor = ConsoleColor.Red;
         Console.WriteLine($"Mining block #{newBlock.index} of {difficulty} difficulty");
         while (true)
@@ -183,13 +185,13 @@ public class Blockchain
             }
         }
         chain.Remove(chain.ElementAt(index));
-        chain.AddAfter(chain.Find(chain.ElementAt(index-1)),newBlock);
+        chain.AddAfter(chain.Find(chain.ElementAt(index - 1)), newBlock);
         Console.WriteLine("Finished node! Continue? (Y/N)");
         Console.WriteLine(chain.Count);
         string choice = Console.ReadLine();
-        if ((choice.ToLower() == "y" || choice == "") && (index+1 != chain.Count))
+        if ((choice.ToLower() == "y" || choice == "") && (index + 1 != chain.Count))
         {
-            RecalculateChain(index+1);
+            RecalculateChain(index + 1);
         }
         else
         {
