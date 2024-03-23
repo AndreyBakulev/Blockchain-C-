@@ -2,6 +2,7 @@ using System.Security.Cryptography;
 using System.Text;
 public class Block
 {
+    public int difficulty { get; set; }
     public int index { get; set; }
     public long timestamp { get; set; }
     public string data { get; set; }
@@ -9,6 +10,7 @@ public class Block
     public long nonce { get; set; }
     public Block(string data, Block previousBlock)
     {
+        this.difficulty = previousBlock?.difficulty ?? 0;
         this.index = previousBlock?.index + 1 ?? 0;
         this.data = data;
         if (this.index > 0)
@@ -18,6 +20,7 @@ public class Block
         else this.previousHash = "0";
         this.nonce = 0;
         this.timestamp = DateTime.Now.Ticks;
+        
     }
     public void SetIndex(int index) { this.index = index; }
     public void SetNonce(long nonce) { this.nonce = nonce; }

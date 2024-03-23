@@ -14,7 +14,10 @@ public class Blockchain
     }
     public void createGenesisBlock()
     {
-        Block genesisBlock = new("Genesis Block", null);
+        Block genesisBlock = new("Genesis Block", null)
+        {
+            difficulty = difficulty
+        };
         chain.AddLast(genesisBlock);
     }
     public void AddBlock(Block b)
@@ -44,7 +47,7 @@ public class Blockchain
         }
         return true;
     }
-    public void StartMining()
+    public void MineLatest()
     {
         Console.WriteLine("Please enter data for your new block");
         Block newBlock = new(Console.ReadLine(), GetLatestBlock());
@@ -85,7 +88,7 @@ public class Blockchain
         string choice = Console.ReadLine();
         if (choice.ToLower() == "y" || choice == "")
         {
-            StartMining();
+            MineLatest();
         }
         else
         {
@@ -127,26 +130,35 @@ public class Blockchain
         }
     }
     // Save the blockchain to a file
-    public static void SaveBlockchain(Blockchain b)
+    public void SaveBlockchain(int num)
     {
-        string json = JsonConvert.SerializeObject(b.chain);
+        string json = JsonConvert.SerializeObject(chain);
         Console.ForegroundColor = ConsoleColor.Green;
-        Console.WriteLine("Blockchain saved!");
+        Console.WriteLine($"Blockchain saved as #{num}!");
         Console.ForegroundColor = ConsoleColor.White;
-        File.WriteAllText("blockchain.json", json);
+        File.WriteAllText($"blockchain{num}.json", json);
     }
-
     // Load the blockchain from a file
-    public Blockchain LoadBlockchain(int difficulty)
+    public static Blockchain LoadBlockchain(int num)
     {
-        string json = File.ReadAllText("blockchain.json");
-        Console.ForegroundColor = ConsoleColor.Green;
-        Console.WriteLine("Blockchain Loaded!");
-        Console.ForegroundColor = ConsoleColor.White;
-        LinkedList<Block> test = JsonConvert.DeserializeObject<LinkedList<Block>>(json);
-        Blockchain b = new(difficulty);
-        b.chain = test;
-        return b;
+        if (File.Exists($"blockchain{num}.json"))
+        {
+            string json = File.ReadAllText($"blockchain{num}.json");
+            LinkedList<Block> test = JsonConvert.DeserializeObject<LinkedList<Block>>(json);
+            Blockchain b = new(test.ElementAt(0).difficulty)
+            {
+                chain = test
+            };
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine($"Blockchain number {num} Loaded!");
+            Console.ForegroundColor = ConsoleColor.White;
+            return b;
+        }
+        else
+        {
+            Console.WriteLine($"Couldn't find blockchain #{num}");
+            return null;
+        }
     }
     public void RecalculateChain(int index)
     {
@@ -172,7 +184,7 @@ public class Blockchain
                 watch.Stop();
                 double seconds = (double)watch.ElapsedMilliseconds / 1000;
                 Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine($"\nBlock Mined in {seconds} seconds without Parallelism! \nNonce: {nonce} \nHash: {hash}");
+                Console.WriteLine($"\nBlock Mined in {seconds} seconds without Parallelism! \nNonce: {nonce} \nResult: {hash}");
                 Console.ForegroundColor = ConsoleColor.White;
                 newBlock.SetNonce(nonce);
                 times.Add(seconds);
