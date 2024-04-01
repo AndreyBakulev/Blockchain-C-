@@ -126,8 +126,9 @@ TODO{
     build base req
 }
 LEVELS:
-0: single threaded running 
+0: single threaded running (DONE)
 1: parallel running
 2: parallel running with cuda (separate repo)
 3: rust
+4: tauri (netter)
 */
